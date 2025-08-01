@@ -1,10 +1,9 @@
-// import { getSession } from "@/lib/session";
 import Link from "next/link";
 import React from "react";
+import {getSession} from "@/lib/session";
 
 const SignInButton = async () => {
-  // const session = await getSession();
-  const session = {}
+  const session = await getSession();
   return (
     <div className="flex items-center gap-2 ml-auto">
       {!session || !session.user ? (

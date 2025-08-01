@@ -6,7 +6,7 @@ import {
   LoginFormSchema,
   SignupFormSchema,
 } from "./type";
-// import { createSession } from "./session";
+import {createSession} from "@/lib/session";
 
 export async function signUp(state, formData) {
   const validationFields = SignupFormSchema.safeParse({
@@ -67,20 +67,19 @@ export async function signIn(state, formData) {
   console.log('Login response', response.status);
 
   if (response.ok) {
-    const result = await response.text();
-    console.log('Login successful', result);
+    const result = await response.json();
     // TODO: Create The Session For Authenticated User.
 
-    // await createSession({
-    //   user: {
-    //     id: result.id,
-    //     name: result.name,
-    //     role: result.role,
-    //   },
-    //   accessToken: result.accessToken,
-    //   refreshToken: result.refreshToken,
-    // });
-    // redirect("/");
+    await createSession({
+      user: {
+        id: result.id,
+        name: result.name,
+        role: result.role,
+      },
+      accessToken: result.accessToken,
+      refreshToken: result.refreshToken,
+    });
+    redirect("/");
   } else {
     return {
       message:
